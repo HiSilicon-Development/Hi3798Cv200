@@ -11,7 +11,7 @@ Hi3798Cv200 面向 DVB/IPTV 机顶盒，包含四核 64 位 Cortex-A53、Mali-T7
 | 设备 | 状态 | 下载 |
 | --- | --- | --- |
 | [DVB-IP1001](devices/DVB-IP1001.md) | 已支持 |  |
-| [DVB-IP1002](devices/DVB-IP1002.md) | 已支持 |  |
+| [DVB-IP1002](devices/DVB-IP1002.md) | 已支持 | [Github Releases](https://github.com/HiSilicon-Development/Hi3798Cv200/releases/tag/IP1002) |
 | [DVB-IP1004](devices/DVB-IP1004.md) | 已支持 |  |
 
 同一颗 Hi3798Cv200 可以搭配不同的 eMMC 模式、DVB 前端、供电参数、分区布局和安全启动容器。

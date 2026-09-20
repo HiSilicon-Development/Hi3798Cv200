@@ -20,6 +20,8 @@ Hi3798Cv200 面向 DVB/IPTV 机顶盒，包含四核 64 位 Cortex-A53、Mali-T7
 
 HiTool 刷机包必须与设备型号严格对应，不能跨设备混刷。
 
+对于DVBIP-1002，某些新版HiTool可能会自动更新bootargs内容，要在HiTool首选项中关闭“启动自动更新bootargs中分区表信息”，没有此选项可忽略，否则会损坏刷入的bootargs镜像导致启动失败。
+
 ## 公开参考资料
 
 - [Hi3798C V200 Brief Data Sheet](https://www.silicondevice.com/file.upload/images/Gid1562Pdf_Hi3798CV200.pdf) 芯片功能框图和公开规格参考。

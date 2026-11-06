@@ -1,6 +1,6 @@
 # HiSilicon Hi3798CV200 Linux 6.12.y 适配项目（歌华 DVB-IP1001 / 1002 / 1004 / 1006）
 
-本仓库记录基于海思 **Hi3798CV200** 机顶盒 SoC 的 **Linux 6.12.y（当前基线 `6.12.114` AArch64）** 硬件适配架构、板级拓扑、64 位引导方案及外围扩展能力。
+本仓库记录基于海思 **Hi3798CV200** 机顶盒 SoC 的 **Linux 6.12.y（当前基线 `6.12.115` AArch64）** 硬件适配架构、板级拓扑、64 位引导方案及外围扩展能力。
 
 Hi3798CV200 面向混合有线数字电视（DVB-C）与网络媒体终端，片内集成四核 64 位 Cortex-A53（最高 1.6 GHz + 软件 AVS）、Mali-T720 GPU（`Panfrost`）、HiVXE 视频/图像硬件编解码引擎、VDP 多平面显示控制器与 HDMI 2.0（最高 4K60 / CEC / HDCP）、四路 TSI 传输流解复用与硬件 CSA2 解扰器、千兆以太网、USB 2.0/3.0、eMMC/TF、AIAO/Tianlai 立体声音频、红外接收及 ISO/IEC 7816 智能卡接口。
 
@@ -10,7 +10,7 @@ Hi3798CV200 面向混合有线数字电视（DVB-C）与网络媒体终端，片
 
 ## 文档导航与相关仓库
 
-- **[DVB-IP100x 产品与硬件总览](DVBIP-100x-INTRODUCTION.md)**：1001 / 1002 / 1004（2+8）/ 1006 型号差异矩阵、设备树与节点树、内存保留区、DVFS/GPU/显示/音频实现及 HiTool 分区表。
+- **[DVB-IP100x 产品与硬件总览](DVBIP-100x-INTRODUCTION.md)**：1001 / 1002 / 1004（包含四路 MxL214 与双路 Hi3130+R858 双射频变体）/ 1006 型号差异矩阵、设备树与节点树、内存保留区、DVFS/GPU/显示/音频实现及 HiTool 分区表。
 - **[Hi3798CV200 AArch32 → AArch64 启动架构](Hi3798Cv200-AArch64-Boot-Doc.md)**：原厂 AArch32 Fastboot 容器封装、ARM32 热复位跳板、EL3 → EL2 安全移交、四核 `spin-table` 唤醒与串口排障指南。
 - **[HiVXE 硬件编解码与 Tvheadend 配置](https://github.com/HiSilicon-Development/HiVXE-2.0)**：VDEC / VPSS / VENC / JPGD / JPGE 硬件能力矩阵及 `hivxe-ffmpeg` 转码参数说明。
 - **[固件与内核更新仓库 (firmware)](https://github.com/HiSilicon-Development/firmware/releases)**：四款机型完整 HiTool 刷机包与在线内核升级包下载。
@@ -22,10 +22,10 @@ Hi3798CV200 面向混合有线数字电视（DVB-C）与网络媒体终端，片
 
 | 设备型号 | 板载前端与核心外设状态 | 固件下载 |
 | --- | --- | --- |
-| **[DVB-IP1001](DVBIP-100x-INTRODUCTION.md#dvb-ip1001)** | 已全部支持（板载四路 DVB-C、千兆网口、GPU/HDMI、HiVXE、音频、SCI0、IR、USB） | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
-| **[DVB-IP1002](DVBIP-100x-INTRODUCTION.md#dvb-ip1002)** | 已全部支持（同上 + HS400 eMMC、TF 卡槽、板载 RTL8192EU Wi-Fi） | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
-| **[DVB-IP1004（2+8）](DVBIP-100x-INTRODUCTION.md#dvb-ip1004)** | 已全部支持（同上 + 三线独立时钟 DVB-C、HS400 eMMC、TF 卡槽、板载 MT7662T Wi-Fi/BT；仅限 2+8 版） | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
-| **[DVB-IP1006](DVBIP-100x-INTRODUCTION.md#dvb-ip1006)** | 已全部支持（同上 + HS400 eMMC、高有效 SCI0 供电/检卡、RGMII strap 延时） | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
+| **[DVB-IP1001](DVBIP-100x-INTRODUCTION.md#dvb-ip1001)** | 已全部支持（板载四路 DVB-C、千兆网口、GPU/HDMI、HiVXE、音频、SCI0、IR、USB；无 TF 卡槽） | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
+| **[DVB-IP1002](DVBIP-100x-INTRODUCTION.md#dvb-ip1002)** | 已全部支持（同上 + HS400 eMMC、带 TF 卡槽、板载 RTL8192EU Wi-Fi） | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
+| **[DVB-IP1004](DVBIP-100x-INTRODUCTION.md#dvb-ip1004)** | 已全部支持两种硬件变体：<br>1. **四路 MxL214 变体**（独立三线时钟，DTB `hi3798cv200-dvbip-1004-arm64.dtb`，常见于 2+8 机型）<br>2. **双路 Hi3130v200 + R858 变体**（独立 I2C3 调谐总线，DTB `hi3798cv200-dvbip-1004-r858-arm64.dtb`，已实测验证于 2+4 / 004G60 机型）<br>均支持 HS400 eMMC、带 TF 卡槽、板载无线与音频静音控制 | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
+| **[DVB-IP1006](DVBIP-100x-INTRODUCTION.md#dvb-ip1006)** | 已全部支持（同上 + HS400 eMMC、带 TF 卡槽、高有效 SCI0 供电/检卡、RGMII strap 延时） | [Releases](https://github.com/HiSilicon-Development/firmware/releases) |
 
 ### 刷机必读注意事项
 
@@ -36,7 +36,7 @@ Hi3798CV200 面向混合有线数字电视（DVB-C）与网络媒体终端，片
 
 ## 外围 USB DTMB / DVB-C 接收器支持（非板载硬件）
 
-> **重要硬件说明**：歌华 **DVB-IP1001 / 1002 / 1004 / 1006 机身板载射频硬件均为四路有线数字电视（DVB-C，MaxLinear MxL214 / MxL214C），不具备板载地面波（DTMB）硬件**。内核内置的 DTMB 驱动与随附固件**仅作为外接 USB 数字电视棒等外围设备的扩展支持**，插入机顶盒 USB 端口后即可注册额外的 `/dev/dvb/adapterN` 前端节点。
+> **重要硬件说明**：歌华 **DVB-IP1001 / 1002 / 1004 / 1006 机身板载射频硬件均为有线数字电视（DVB-C：1001/1002/1006 为四路 MaxLinear MxL214/MxL214C；1004 视硬件版本配备四路 MxL214 或双路 Hi3130v200 + R858），不具备板载地面波（DTMB）硬件**。内核内置的 DTMB 驱动与随附固件**仅作为外接 USB 数字电视棒等外围设备的扩展支持**，插入机顶盒 USB 端口后即可注册额外的 `/dev/dvb/adapterN` 前端节点。
 
 当前 Linux 6.12.y 内核（`hi3798cv200_defconfig`）已模块化集成以下五类常见国产 USB 2.0 地面波（DTMB）/ 有线（DVB-C）接收器驱动，并在 Kconfig 层面对共享 USB VID:PID 的冲突上游驱动设置了互斥保护，完整配套固件均已内置于系统 `/lib/firmware/` 目录：
 

@@ -1,6 +1,6 @@
 # Hi3798CV200 AArch32 → AArch64 启动架构
 
-本文说明 **DVB-IP1001、DVB-IP1002、DVB-IP1004（2+8）与 DVB-IP1006** 当前使用的 Linux 6.12.y（`6.12.114`）64 位启动链：沿用各机型原厂 AArch32 Fastboot 加载项目启动容器，经 ARM32 跳板、CP15 RMR 热复位（warm reset）、AArch64 EL3 安全态初始化与四核 `spin-table` 交接进入 non-secure EL2 Linux。
+本文说明 **DVB-IP1001、DVB-IP1002、DVB-IP1004 与 DVB-IP1006** 当前使用的 Linux 6.12.y（`6.12.115`）64 位启动链：沿用各机型原厂 AArch32 Fastboot 加载项目启动容器，经 ARM32 跳板、CP15 RMR 热复位（warm reset）、AArch64 EL3 安全态初始化与四核 `spin-table` 交接进入 non-secure EL2 Linux。
 
 板级参数、完整分区表及系统节点见 [DVB-IP100x 产品与硬件总览](DVBIP-100x-INTRODUCTION.md)。
 
@@ -14,7 +14,7 @@
 | --- | --- | --- | --- | --- |
 | **DVB-IP1001** | `trustedcore.img` | 220 MiB / 10 MiB | `/dev/mmcblk0p4` | 保留原厂 Fastboot、bootargs 及 160 MiB 处的 40 MiB 签名 `kernel.img`；项目 Linux 固定从 `trustedcore` 引导 |
 | **DVB-IP1002** | `kernel.img` | 12 MiB / 16 MiB | `/dev/mmcblk0p4` | 使用带 `0x20000` 前缀与 Android boot 头部的 16 MiB 完整容器，不可直接写入裸 ARM64 `Image` |
-| **DVB-IP1004（2+8）** | `recovery.img` | 2 MiB / 11 MiB | `/dev/mmcblk0p3` | 配合 `misc` 分区引导标志，从 `recovery` 槽位读取 11 MiB legacy `uImage` 容器直接进入 Debian/Linux |
+| **DVB-IP1004** | `recovery.img` | 2 MiB / 11 MiB | `/dev/mmcblk0p3` | 配合 `misc` 分区引导标志，从 `recovery` 槽位读取 11 MiB legacy `uImage` 容器直接进入 Debian/Linux |
 | **DVB-IP1006** | `trustedcore.img` | 220 MiB / 10 MiB | `/dev/mmcblk0p4` | 保留本型号原厂 Fastboot、bootargs 及 40 MiB 签名 `kernel.img`；项目 Linux 固定从 `trustedcore` 引导 |
 
 - `kernel`、`recovery`、`trustedcore` 仅代表原厂 Fastboot 读取的存储槽位名称，与启动后的操作系统类型无关，四款机型最终均进入标准 Debian/Linux AArch64 用户态。
